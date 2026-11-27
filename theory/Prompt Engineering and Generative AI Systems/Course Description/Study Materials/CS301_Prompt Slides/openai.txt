@@ -1,0 +1,40 @@
+from openai import OpenAI
+
+api_key = "YOUR_NEW_OPENROUTER_API_KEY"
+
+client = OpenAI(
+    api_key= "Your API Key",
+    base_url="https://openrouter.ai/api/v1"
+)
+
+model = "openai/gpt-4o"
+
+while True:
+
+    prompt = input("\n>> ")
+
+    if prompt.strip().lower() == "exit":
+        print("Goodbye!")
+        break
+
+    try:
+        response = client.chat.completions.create(
+            model=model,
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a helpful assistant."
+                },
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ],
+            max_tokens=100
+        )
+
+        print("\nResponse:")
+        print(response.choices[0].message.content)
+
+    except Exception as e:
+        print("\nError:", e)
